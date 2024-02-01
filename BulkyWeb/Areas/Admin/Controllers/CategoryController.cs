@@ -1,7 +1,5 @@
 ﻿using BulkyBook.Models;
-using BulkyBook.Utility;
 using BusinessAccessLayer.Interfaces;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BulkyBookWeb.Areas.Admin.Controllers
