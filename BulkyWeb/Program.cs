@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using BulkyBook.Utility;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using BusinessAccessLayer.Interface;
+using BusinessAccessLayer.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +25,9 @@ builder.Services.ConfigureApplicationCookie(options => {
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
+
+builder.Services.AddTransient<ICategory, CategoryServices>();
+builder.Services.AddTransient<IProduct, ProductServices>();
 
 var app = builder.Build();
 
