@@ -5,8 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using BulkyBook.Utility;
 using Microsoft.AspNetCore.Identity.UI.Services;
-using BusinessAccessLayer.Interface;
 using BusinessAccessLayer.Services;
+using BusinessAccessLayer.Interfaces;
+using BulkyBook.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,7 +28,7 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 
 builder.Services.AddTransient<ICategory, CategoryServices>();
-builder.Services.AddTransient<IProduct, ProductServices>();
+builder.Services.AddTransient<IProduct, ProductService>();
 
 var app = builder.Build();
 

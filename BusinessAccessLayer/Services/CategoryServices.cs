@@ -2,21 +2,6 @@
 using BulkyBook.Models;
 using BusinessAccessLayer.Interfaces;
 
-using BulkyBook.DataAccess.Repository.IRepository;
-
-using BulkyBook.Models;
-
-using BusinessAccessLayer.Interfaces;
-
-using System;
-
-using System.Collections.Generic;
-
-using System.Linq;
-
-using System.Text;
-
-using System.Threading.Tasks;
  
 namespace BusinessAccessLayer.Services
 
