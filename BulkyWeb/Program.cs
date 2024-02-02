@@ -31,6 +31,7 @@ builder.Services.AddScoped<IEmailSender, EmailSender>();
 builder.Services.AddTransient<ICategory, CategoryServices>();
 builder.Services.AddTransient<IProduct, ProductServices>();
 builder.Services.AddTransient<ICompany, CompanyServices>();
+builder.Services.AddTransient<ICart, CartServices>();
 
 var app = builder.Build();
 
