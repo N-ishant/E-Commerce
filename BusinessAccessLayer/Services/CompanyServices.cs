@@ -1,18 +1,4 @@
-﻿//using BusinessAccessLayer.Interface;
-//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
-
-//namespace BusinessAccessLayer.Services
-//{
-//    public class CompanyServices :ICompany
-//    {
-//    }
-//}
-
-using BusinessAccessLayer.Interface;
+﻿using BusinessAccessLayer.Interface;
 using BulkyBook.DataAccess.Repository.IRepository;
 using BulkyBook.Models;
 using System.Collections.Generic;
@@ -21,11 +7,22 @@ namespace BusinessAccessLayer.Services
 {
     public class CompanyServices : ICompany
     {
+
         private readonly IUnitOfWork _unitOfWork;
 
         public CompanyServices(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
+        }
+
+        public List<Company> GetAllCompanies()
+        {
+            return _unitOfWork.Company.GetAll().ToList();
+        }
+
+        public Company GetCompanyById(int id)
+        {
+            return _unitOfWork.Company.Get(u => u.Id == id);
         }
 
         public void AddCompany(Company company)
@@ -34,33 +31,21 @@ namespace BusinessAccessLayer.Services
             _unitOfWork.Save();
         }
 
-        public bool DeleteCompany(int companyId)
-        {
-            var company = _unitOfWork.Company.GetFirstOrDefault(c => c.Id == companyId);
-            if (company != null)
-            {
-                _unitOfWork.Company.Remove(company);
-                _unitOfWork.Save();
-                return true;
-            }
-            return false;
-        }
-
-        public IEnumerable<Company> GetAllCompanies()
-        {
-            return _unitOfWork.Company.GetAll();
-        }
-
-        public Company GetCompanyById(int companyId)
-        {
-            return _unitOfWork.Company.GetFirstOrDefault(c => c.Id == companyId);
-        }
-
         public void UpdateCompany(Company company)
         {
             _unitOfWork.Company.Update(company);
             _unitOfWork.Save();
         }
+
+        public void DeleteCompany(int id)
+        {
+            var companyToDelete = _unitOfWork.Company.Get(u => u.Id == id);
+            if (companyToDelete != null)
+            {
+                _unitOfWork.Company.Remove(companyToDelete);
+                _unitOfWork.Save();
+            }
+        }
+
     }
 }
-

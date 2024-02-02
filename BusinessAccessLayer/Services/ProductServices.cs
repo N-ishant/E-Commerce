@@ -8,12 +8,12 @@ using BusinessAccessLayer.Interfaces;
 
 namespace BulkyBook.Services
 {
-    public class ProductService : IProduct
+    public class ProductServices : IProduct
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public ProductService(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
+        public ProductServices(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
         {
             _unitOfWork = unitOfWork;
             _webHostEnvironment = webHostEnvironment;
@@ -59,7 +59,6 @@ namespace BulkyBook.Services
 
             return "Hello";
         }
-
 
     }
 }

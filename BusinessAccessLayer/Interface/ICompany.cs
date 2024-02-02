@@ -7,13 +7,14 @@ using System.Threading.Tasks;
 
 namespace BusinessAccessLayer.Interface
 {
+
     public interface ICompany
     {
-        IEnumerable<Company> GetAllCompanies();
-        Company GetCompanyById(int companyId);
+        List<Company> GetAllCompanies();
+        Company GetCompanyById(int id);
         void AddCompany(Company company);
         void UpdateCompany(Company company);
-        bool DeleteCompany(int companyId);
+        void DeleteCompany(int id);
     }
-}
+
 }

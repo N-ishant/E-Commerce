@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using BusinessAccessLayer.Services;
 using BusinessAccessLayer.Interfaces;
 using BulkyBook.Services;
+using BusinessAccessLayer.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,7 +29,8 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 
 builder.Services.AddTransient<ICategory, CategoryServices>();
-builder.Services.AddTransient<IProduct, ProductService>();
+builder.Services.AddTransient<IProduct, ProductServices>();
+builder.Services.AddTransient<ICompany, CompanyServices>();
 
 var app = builder.Build();
 
