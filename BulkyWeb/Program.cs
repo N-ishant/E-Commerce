@@ -9,6 +9,7 @@ using BusinessAccessLayer.Services;
 using BusinessAccessLayer.Interfaces;
 using BulkyBook.Services;
 using BusinessAccessLayer.Interface;
+using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +18,9 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
+
 
 builder.Services.AddIdentity<IdentityUser,IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 builder.Services.ConfigureApplicationCookie(options => {
@@ -32,6 +36,7 @@ builder.Services.AddTransient<ICategory, CategoryServices>();
 builder.Services.AddTransient<IProduct, ProductServices>();
 builder.Services.AddTransient<ICompany, CompanyServices>();
 
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -44,7 +49,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
