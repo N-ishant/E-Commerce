@@ -68,7 +68,7 @@ namespace BusinessAccessLayer.Services
             _unitOfWork.Save();
         }
 
-        private double GetPriceBasedOnQuantity(ShoppingCart shoppingCart)
+        public double GetPriceBasedOnQuantity(ShoppingCart shoppingCart)
         {
             if (shoppingCart.Count <= 50)
             {

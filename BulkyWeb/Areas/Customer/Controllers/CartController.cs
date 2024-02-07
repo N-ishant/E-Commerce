@@ -1,4 +1,7 @@
+using BulkyBook.DataAccess.Repository.IRepository;
+using BulkyBook.Models;
 using BulkyBook.Models.ViewModel;
+using BulkyBook.Utility;
 using BusinessAccessLayer.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -38,7 +41,9 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
             {
                 ShoppingCartList = _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == userId,
                     includeProperties: "Product"),
-                OrderHeader = new()
+                OrderHeader = new OrderHeader(),  // Assuming OrderHeader is a property of type OrderHeader
+                
+                
             };
 
             ShoppingCartVM.OrderHeader.ApplicationUser = _unitOfWork.ApplicationUser.Get(u => u.Id == userId);
@@ -52,7 +57,7 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
 
             foreach (var cart in ShoppingCartVM.ShoppingCartList)
             {
-                cart.Price = GetPriceBasedOnQuantity(cart);
+                cart.Price = CartService.GetPriceBasedOnQuantity(cart);
                 ShoppingCartVM.OrderHeader.OrderTotal += (cart.Price * cart.Count);
             }
             return View(ShoppingCartVM);
@@ -74,7 +79,7 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
 
             foreach (var cart in ShoppingCartVM.ShoppingCartList)
             {
-                cart.Price = GetPriceBasedOnQuantity(cart);
+                cart.Price = CartService.GetPriceBasedOnQuantity(cart);
                 ShoppingCartVM.OrderHeader.OrderTotal += (cart.Price * cart.Count);
             }
 

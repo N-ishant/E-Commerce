@@ -15,6 +15,7 @@ namespace BusinessAccessLayer.Interface
         void IncreaseQuantity(int cartId);
         void DecreaseQuantity(int cartId);
         void RemoveItem(int cartId);
+        public double GetPriceBasedOnQuantity(ShoppingCart shoppingCart);
 
     }
 }

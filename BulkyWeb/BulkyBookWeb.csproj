@@ -30,6 +30,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Bulky.DataAccess\BulkyBook.DataAccess.csproj" />
+    <ProjectReference Include="..\Bulky.Models\BulkyBook.Models.csproj" />
     <ProjectReference Include="..\BusinessAccessLayer\BusinessAccessLayer.csproj" />
   </ItemGroup>
 
