@@ -1,8 +1,10 @@
 ﻿using BulkyBook.DataAccess.Repository.IRepository;
 using BulkyBook.Models;
 using BulkyBook.Models.ViewModel;
+using BulkyBook.Utility;
 using BusinessAccessLayer.Interface;
 using Microsoft.AspNetCore.Cors.Infrastructure;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -63,9 +65,8 @@ namespace BusinessAccessLayer.Services
 
         public void RemoveItem(int cartId)
         {
-            var cartFromDb = _unitOfWork.ShoppingCart.Get(u => u.Id == cartId);
-            _unitOfWork.ShoppingCart.Remove(cartFromDb);
-            _unitOfWork.Save();
+          
+
         }
 
         public double GetPriceBasedOnQuantity(ShoppingCart shoppingCart)
