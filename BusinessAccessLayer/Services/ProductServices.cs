@@ -22,13 +22,33 @@ namespace BulkyBook.Services
             this.dbContext = dbContext;
         }
 
-        public IEnumerable<Product> GetAllProducts(bool includeCategory = false)
+        public IEnumerable<Product> GetAllProducts(bool includeCategory = true)
         {
             return _unitOfWork.Product.GetAll(includeProperties: includeCategory ? "Category" : null).ToList();
         }
         public IEnumerable<Product> GetProductsByCategoryId(int categoryid)
         {
-            return dbContext.Products.Where(e=>e.CategoryId==categoryid).ToList();
+
+            var products = dbContext.Products
+                            .Where(e => e.CategoryId == categoryid)
+                             .Join(dbContext.ProductImages,
+                                product => product.Id,  // Assuming 'Id' is the primary key in the 'Product' table
+            productImage => productImage.ProductId,
+            (product, productImage) => new { Product = product, ProductImage = productImage })
+            .ToList();
+
+            var result = products
+                .GroupBy(item => item.Product) // Group by the Product to eliminate duplicates
+                .Select(group =>
+                {
+                    var product = group.Key; // Product without duplicates
+                    product.ProductImages = group.Select(item => item.ProductImage).ToList(); // Assign the list of ProductImages
+                    return product;
+                })
+                .ToList();
+
+            return result;
+
         }
 
         public ProductVM GetProductViewModel(int? id)

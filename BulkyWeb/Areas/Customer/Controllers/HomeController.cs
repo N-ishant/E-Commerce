@@ -31,7 +31,7 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
             if (CategoryId > 0)
             {
                 var products =_productservice.GetProductsByCategoryId(CategoryId);
-
+               
                 return View(products);
             }
             IEnumerable<Product> productList = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages");
@@ -57,12 +57,7 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
             };
             return View(cart);
         }
-        public IActionResult ShowProductByCategory(int CategoryId)
-        {
-            Product product = _unitOfWork.Product.Get(u => u.Id == CategoryId, includeProperties: "Category,ProductImages");
-            
-            return View("Index",product);
-        }
+       
 
         [HttpPost]
         [Authorize]
