@@ -15,6 +15,7 @@ namespace BusinessAccessLayer.Interfaces
         IEnumerable<Product> GetAllProducts(bool includeCategory = false);
         ProductVM GetProductViewModel(int? id);
         void UpsertProduct(ProductVM productVM, IFormFile? file);
+        public IEnumerable<Product> GetProductsByCategoryId(int categoryid);
         string DeleteProduct(int? id);
         //IEnumerable<SelectListItem> GetCategoryList();
     }

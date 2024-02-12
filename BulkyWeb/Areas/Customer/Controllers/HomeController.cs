@@ -2,6 +2,7 @@ using BulkyBook.DataAccess.Repository;
 using BulkyBook.DataAccess.Repository.IRepository;
 using BulkyBook.Models;
 using BulkyBook.Utility;
+using BusinessAccessLayer.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -14,15 +15,25 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IProduct _productservice;
 
-        public HomeController(ILogger<HomeController> logger, IUnitOfWork unitOfWork)
+        public HomeController(ILogger<HomeController> logger, IUnitOfWork unitOfWork,IProduct productservice)
         {
             _logger = logger;
             _unitOfWork = unitOfWork;
+            _productservice = productservice;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int CategoryId)
         {
+
+            ViewBag.categories = _unitOfWork.Category.GetAll();
+            if (CategoryId > 0)
+            {
+                var products =_productservice.GetProductsByCategoryId(CategoryId);
+
+                return View(products);
+            }
             IEnumerable<Product> productList = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages");
             return View(productList);
             //var claimsIdentity = (ClaimsIdentity)User.Identity;
@@ -45,6 +56,12 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
                 ProductId = productId
             };
             return View(cart);
+        }
+        public IActionResult ShowProductByCategory(int CategoryId)
+        {
+            Product product = _unitOfWork.Product.Get(u => u.Id == CategoryId, includeProperties: "Category,ProductImages");
+            
+            return View("Index",product);
         }
 
         [HttpPost]

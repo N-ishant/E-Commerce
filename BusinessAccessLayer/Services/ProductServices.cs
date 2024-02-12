@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using BusinessAccessLayer.Interfaces;
+using BulkyBook.DataAccess.Data;
 
 namespace BulkyBook.Services
 {
@@ -12,17 +13,22 @@ namespace BulkyBook.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly ApplicationDbContext dbContext;
 
-        public ProductServices(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
+        public ProductServices(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment,ApplicationDbContext dbContext)
         {
             _unitOfWork = unitOfWork;
             _webHostEnvironment = webHostEnvironment;
-
+            this.dbContext = dbContext;
         }
 
         public IEnumerable<Product> GetAllProducts(bool includeCategory = false)
         {
             return _unitOfWork.Product.GetAll(includeProperties: includeCategory ? "Category" : null).ToList();
+        }
+        public IEnumerable<Product> GetProductsByCategoryId(int categoryid)
+        {
+            return dbContext.Products.Where(e=>e.CategoryId==categoryid).ToList();
         }
 
         public ProductVM GetProductViewModel(int? id)
