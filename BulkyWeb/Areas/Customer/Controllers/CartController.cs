@@ -219,6 +219,8 @@ using BulkyBook.DataAccess.Repository.IRepository;
 using BulkyBook.Models;
 using BulkyBook.Models.ViewModel;
 using BulkyBook.Utility;
+using BusinessAccessLayer.Interface;
+using BusinessAccessLayer.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -234,15 +236,14 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
     {
 
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IEmailSender _emailSender;
+        private readonly IEmailService _emailSender;
         [BindProperty]
         public ShoppingCartVM ShoppingCartVM { get; set; }
-        public CartController(IUnitOfWork unitOfWork, IEmailSender emailSender)
+        public CartController(IUnitOfWork unitOfWork, IEmailService emailSender)
         {
             _unitOfWork = unitOfWork;
             _emailSender = emailSender;
         }
-
 
         public IActionResult Index()
         {
@@ -289,7 +290,6 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
             ShoppingCartVM.OrderHeader.City = ShoppingCartVM.OrderHeader.ApplicationUser.City;
             ShoppingCartVM.OrderHeader.State = ShoppingCartVM.OrderHeader.ApplicationUser.State;
             ShoppingCartVM.OrderHeader.PostalCode = ShoppingCartVM.OrderHeader.ApplicationUser.PostalCode;
-
 
 
             foreach (var cart in ShoppingCartVM.ShoppingCartList)
@@ -415,9 +415,8 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
 
             }
 
-            _emailSender.SendEmailAsync(orderHeader.ApplicationUser.Email, "New Order - Bulky Book",
-                $"<p>New Order Created - {orderHeader.Id}</p>");
-
+            _emailSender.SendEmailAsync("saifidanish549@gmail.com", "Testing Email Serivce");
+            
             List<ShoppingCart> shoppingCarts = _unitOfWork.ShoppingCart
                 .GetAll(u => u.ApplicationUserId == orderHeader.ApplicationUserId).ToList();
 
@@ -469,8 +468,6 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
             _unitOfWork.Save();
             return RedirectToAction(nameof(Index));
         }
-
-
 
         private double GetPriceBasedOnQuantity(ShoppingCart shoppingCart)
         {
