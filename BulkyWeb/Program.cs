@@ -39,6 +39,7 @@ builder.Services.AddSession(options => {
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
+builder.Services.AddTransient<IEmailService, EmailService>();
 
 builder.Services.AddTransient<ICategory, CategoryServices>();
 builder.Services.AddTransient<IProduct, ProductServices>();
